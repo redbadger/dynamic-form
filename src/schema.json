@@ -1,0 +1,15 @@
+{
+  "title": "sampleForm",
+  "properties": {
+    "text": {
+      "description": "Text of your form"
+    },
+    "url": {
+      "description": "URL you want to link to",
+      "editor": "UrlInput"
+    },
+    "file": {
+      "description": "File you want to upload"
+    }
+  }
+}
