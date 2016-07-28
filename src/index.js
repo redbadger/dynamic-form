@@ -17,7 +17,7 @@ const store = createStore(
 
 ReactDOM.render(
   (<Provider store={store}>
-    <DynamicForm onSubmit={} schema={schema} submitText="Submit" />
+    <DynamicForm onSubmit={e => console.log(e)} schema={schema} submitText="Submit" />
   </Provider>),
   document.getElementById('app')
 );

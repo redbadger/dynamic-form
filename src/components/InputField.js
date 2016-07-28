@@ -1,33 +1,33 @@
 import React, { PropTypes } from 'react';
-import TextInput from './TextInput';
-
-const { string, bool, object } = PropTypes;
+import * as editors from './Editors';
 
 const InputField = props => {
-  const Editor = undefined;
+  const {
+    input: {
+      description,
+      editor,
+      ...editorProps,
+    },
+  } = props;
+  const Editor = editors[editor] || editors.TextInput;
 
   return (
     <div>
-      <div>{props.description}</div>
-      {
-        Editor
-        ? (<Editor {...props} />)
-        : (<TextInput id={props.name} {...props.input} />)
-      }
+      <div>{description}</div>
+      <Editor {...editorProps} />
       {props.error && <span>{props.error}</span>}
     </div>
   );
 };
 
+const { string, shape } = PropTypes;
+
 InputField.propTypes = {
-  description: string,
   editor: string,
-  informationMessage: string,
-  required: bool,
-  type: string,
   error: string,
-  name: string,
-  input: object.isRequired,
+  input: shape({
+    description: string.isRequired,
+  }).isRequired,
 };
 
 export default InputField;
