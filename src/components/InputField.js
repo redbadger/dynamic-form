@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import TextInput from './TextInput';
 
-const { string, object, bool } = PropTypes;
+const { string, bool, object } = PropTypes;
 
 const InputField = props => {
   const Editor = undefined;
@@ -12,7 +12,7 @@ const InputField = props => {
       {
         Editor
         ? (<Editor {...props} />)
-        : (<TextInput id={props.name} />)
+        : (<TextInput id={props.name} {...props.input} />)
       }
       {props.error && <span>{props.error}</span>}
     </div>
@@ -27,6 +27,7 @@ InputField.propTypes = {
   type: string,
   error: string,
   name: string,
+  input: object.isRequired,
 };
 
 export default InputField;

@@ -1,14 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import Form from './Form';
+import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import validator from './validator';
 
 const { shape, object, func, string, bool } = PropTypes;
-const FormContainer = reduxForm()(Form);
+
+const ReduxForm = reduxForm()(Form);
+const FormContainer = connect(null)(ReduxForm);
 
 export default class DynamicForm extends Component {
   static propTypes = {
-    alwaysShowErrors: bool,
     initialValues: object,
     onSubmit: func.isRequired,
     readOnly: bool,
@@ -26,7 +28,6 @@ export default class DynamicForm extends Component {
 
   render() {
     const {
-      alwaysShowErrors,
       initialValues,
       onSubmit,
       readOnly,
@@ -39,20 +40,13 @@ export default class DynamicForm extends Component {
       const initValues = fields.reduce((values, field) => {
         if (values && values[field] === undefined) {
           const schemaField = schema.properties[field];
-          switch (schemaField.editor) {
-            case 'RadioInput':
-              return {
-                ...values,
-                [field]: schemaField.enum[0],
-              };
-            case 'MultiCheckboxes':
-              return {
-                ...values,
-                [field]: schemaField.options.ids,
-              };
-            default:
-              return values;
+          if (['RadioInput', 'Checkboxes'].includes(schemaField.editor)) {
+            return {
+              ...values,
+              [field]: schemaField.enum[0],
+            };
           }
+          return values;
         }
         return values;
       }, initialValues || {});

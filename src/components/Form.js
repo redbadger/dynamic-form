@@ -34,10 +34,11 @@ export default class Form extends Component {
       submitText,
       submitting,
     } = this.props;
+
     const inputFields = Object.keys(properties).map(key => (
-      <Field {...properties[key]} component={InputField} key={key} name={key} />
+      <Field component={InputField} key={key} name={key} {...properties[key]} />
     ));
-    console.log(pristine, submitting);
+
     return (
       <form onSubmit={this.onSubmit}>
         {inputFields}
